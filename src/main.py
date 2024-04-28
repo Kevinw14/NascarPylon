@@ -3,6 +3,7 @@ import time
 from ApiClient import ApiClient
 from Colors import Colors
 from FlagStatus import FlagStatus
+from Series import Series
 
 def positionChangeSymbol(oldPostion, newPosition):
     if (newPosition < oldPostion):
@@ -28,8 +29,10 @@ def flag(flag):
     elif (flag == FlagStatus.ORANGE):
         return flag.ORANGE.name
 
+# CHANGE THIS TO SEE DIFFERENT SERIES DATA
+series = Series.CUP
 client = ApiClient()
-feed = client.getLiveFeed()
+feed = client.getLiveFeed(series)
 positionChange = {}
 
 while feed.lapsToGo > 0:
@@ -42,4 +45,4 @@ while feed.lapsToGo > 0:
         positionChange[vehicle.vehicleNumber] = i
         i += 1
     time.sleep(2)
-    feed = client.getLiveFeed()
+    feed = client.getLiveFeed(series)
