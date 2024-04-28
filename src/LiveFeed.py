@@ -12,3 +12,15 @@ class LiveFeed:
             vehicle = Vehicle(vehicleData)
             vehicles.append(vehicle)
         self.vehicles = vehicles
+        self.trackName = r['track_name']
+        self.sessionName = r['run_name']
+        self.seriesID = r['series_id']
+        match self.seriesID:
+            case 1:
+                self.seriesName = 'NASCAR Cup Series'
+            case 2:
+                self.seriesName = 'NASCAR Xfinity Series'
+            case 3:
+                self.seriesName = 'NASCAR Craftsman Truck Series'
+            case _:
+                self.sereisName = 'A NASCAR Feeder Series'

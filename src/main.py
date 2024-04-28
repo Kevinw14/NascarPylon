@@ -38,7 +38,8 @@ positionChange = {}
 while feed.lapsToGo > 0:
     os.system('clear')
     i = 1
-    print(f'Laps {feed.lapNumber} Laps To Go {feed.lapsToGo} Flag {flag(feed.flagStatus)}')
+    print(f'{feed.seriesName} --- {feed.sessionName} at {feed.trackName}')
+    print(f'Lap {feed.lapNumber} of {feed.lapsInRace} --- {feed.lapsToGo} Laps To Go --- {flag(feed.flagStatus)} Flag')
     for vehicle in feed.vehicles:
         print(f'{i} {positionChangeSymbol(positionChange.get(vehicle.vehicleNumber, i), i)}{vehicle.vehicleNumber}')
         # Update new postion
