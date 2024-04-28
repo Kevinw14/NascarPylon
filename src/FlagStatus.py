@@ -7,3 +7,4 @@ class FlagStatus(Enum):
     WHITE = 4
     CHECKERED = 5
     ORANGE = 8
+    UNKNOWN = 9
