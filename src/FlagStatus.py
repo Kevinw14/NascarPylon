@@ -1,4 +1,6 @@
 from enum import Enum
+
+
 class FlagStatus(Enum):
     NONE = 0
     GREEN = 1
