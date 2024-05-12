@@ -9,19 +9,21 @@ from LapsToGoView import LapsToGoView
 from PitView import PitView
 from VehicleView import VehicleView
 from PositionChangeView import PositionChangeView
+from LapDownView import LapDownView
 from Pylon import Pylon
 
 
 class PylonController(PylonDelegate):
 
     def __init__(self, pylon: Pylon, lap_number_view: LapNumberView, flag_view: FlagView, laps_to_go_view: LapsToGoView,
-                 vehicle_view: VehicleView, position_change_view: PositionChangeView, pit_view: PitView):
+                 vehicle_view: VehicleView, position_change_view: PositionChangeView, pit_view: PitView, lap_down_view: LapDownView):
         self.__lapNumberView: LapNumberView = lap_number_view
         self.__flagView: FlagView = flag_view
         self.__lapsToGoView: LapsToGoView = laps_to_go_view
         self.__vehicle_view: VehicleView = vehicle_view
         self.__position_change_view: PositionChangeView = position_change_view
-        self.__pitView: PitView = pit_view
+        self.__pit_view: PitView = pit_view
+        self.__lap_down_view: LapDownView = lap_down_view
         self.__pylon: Pylon = pylon
         self.__pylon.setDelegate(self)
 
@@ -44,7 +46,10 @@ class PylonController(PylonDelegate):
         self.__position_change_view.displayPositionChange(vehicle, i, position)
 
     def vehicleDidPitRecently(self, vehicle: Vehicle, i: int, did_pit_recently: bool) -> None:
-        self.__pitView.displayPitView(vehicle, i, did_pit_recently)
+        self.__pit_view.displayPitView(vehicle, i, did_pit_recently)
+
+    def didUpdateLapDownLine(self, vehicle: Vehicle, i: int):
+        self.__lap_down_view.displayLapDownLine(vehicle, i)
 
     def run(self) -> None:
         self.__pylon.run()

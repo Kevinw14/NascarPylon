@@ -32,3 +32,7 @@ class PylonDelegate(ABC):
     @abstractmethod
     def vehicleDidPitRecently(self, vehicle: Vehicle, i: int, did_pit_recently: bool):
         pass
+    
+    @abstractmethod
+    def didUpdateLapDownLine(self, vehicle: Vehicle, i: int):
+        pass

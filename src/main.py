@@ -13,6 +13,8 @@ from LapsToGoView import LapsToGoView
 from VehicleView import VehicleView
 from PitView import PitView
 from PositionChangeView import PositionChangeView
+from LapDownView import LapDownView
+from TerminalLapDownView import TerminalLapDownView
 
 if __name__ == '__main__':
     lapNumberView: LapNumberView = TerminalLapNumberView()
@@ -20,8 +22,9 @@ if __name__ == '__main__':
     lapsToGoView: LapsToGoView = TerminalLapsToGoView()
     vehicleView: VehicleView = TerminalVehicleView()
     pitView: PitView = TerminalPitView()
+    lapDownView: LapDownView = TerminalLapDownView()
     positionChangeView: PositionChangeView = TerminalPositionChangeView()
 
     pylon = Pylon(Series.CUP)
-    controller = PylonController(pylon, lapNumberView, flagView, lapsToGoView, vehicleView, positionChangeView, pitView)
+    controller = PylonController(pylon, lapNumberView, flagView, lapsToGoView, vehicleView, positionChangeView, pitView, lapDownView)
     controller.run()

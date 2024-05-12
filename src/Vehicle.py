@@ -8,6 +8,7 @@ class Vehicle:
         self.status: int = r['status']
         self.isOnDVP: bool = r['is_on_dvp']
         self.isOnTrack: bool = r['is_on_track']
+        self.delta: int = r['delta']
         pit_stops: [PitStop] = []
         for pit_stop_data in r['pit_stops']:
             pit_stop: PitStop = PitStop(pit_stop_data)
