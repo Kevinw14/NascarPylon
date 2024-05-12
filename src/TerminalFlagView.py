@@ -20,7 +20,7 @@ class TerminalFlagView(FlagView):
             case FlagStatus.CHECKERED:
                 return flagStatus.CHECKERED.name
             case FlagStatus.ORANGE:
-                return flagStatus.ORANGE.name
+                return Colors.ORANGE + flagStatus.WARMUP.name + Colors.END
             case FlagStatus.UNKNOWN:
                 return flagStatus.UNKNOWN.name
 

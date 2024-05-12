@@ -7,5 +7,5 @@ class FlagStatus(Enum):
     RED = 3
     WHITE = 4
     CHECKERED = 5
-    ORANGE = 8
+    WARMUP = 8
     UNKNOWN = 9

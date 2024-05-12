@@ -4,4 +4,4 @@ from Colors import Colors
 class TerminalLapDownView(LapDownView):
 
     def displayLapDownLine(self, vehicle, i):
-        print(Colors.CYAN + '-----------' + Colors.END)
+        print(Colors.ORANGE + '-----------' + Colors.END)

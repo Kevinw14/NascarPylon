@@ -6,4 +6,5 @@ class Colors:
     BLUE = '\033[34m'
     PURPLE = '\033[35m'
     CYAN = '\033[36m'
+    ORANGE = '\033[38;5;214m'
     END = '\033[0m'
