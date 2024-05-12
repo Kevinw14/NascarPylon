@@ -8,11 +8,11 @@ class TerminalVehicleView(VehicleView):
     @staticmethod
     def __vehicleStatusColor(vehicle: Vehicle) -> str:
         match vehicle.status:
-            case 0:
-                return vehicle.vehicleNumber
             case 1:
-                return Colors.YELLOW + vehicle.vehicleNumber + Colors.END
+                return vehicle.vehicleNumber
             case 2:
+                return Colors.YELLOW + vehicle.vehicleNumber + Colors.END
+            case 3:
                 return Colors.RED + vehicle.vehicleNumber + Colors.END
 
     def displayVehicle(self, vehicle: Vehicle, i: int) -> None:
