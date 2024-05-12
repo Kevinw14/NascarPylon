@@ -6,8 +6,8 @@ from Colors import Colors
 class TerminalFlagView(FlagView):
 
     @staticmethod
-    def __flagStatusView(flag_status: FlagStatus) -> str:
-        match flag_status:
+    def __flagStatusView(flagStatus: FlagStatus) -> str:
+        match flagStatus:
             case FlagStatus.NONE:
                 return ""
             case FlagStatus.GREEN:
@@ -19,11 +19,11 @@ class TerminalFlagView(FlagView):
             case FlagStatus.WHITE:
                 return FlagStatus.WHITE.name
             case FlagStatus.CHECKERED:
-                return flag_status.CHECKERED.name
+                return flagStatus.CHECKERED.name
             case FlagStatus.ORANGE:
-                return flag_status.ORANGE.name
+                return flagStatus.ORANGE.name
             case FlagStatus.UNKNOWN:
-                return flag_status.UNKNOWN.name
+                return flagStatus.UNKNOWN.name
 
     def displayFlagStatus(self, flagStatus: FlagStatus):
         print(TerminalFlagView.__flagStatusView(flagStatus))

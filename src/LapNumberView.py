@@ -3,5 +3,5 @@ from abc import ABC, abstractmethod
 
 class LapNumberView(ABC):
     @abstractmethod
-    def displayLapNumber(self, lap_number):
+    def displayLapNumber(self, lapNumber):
         pass

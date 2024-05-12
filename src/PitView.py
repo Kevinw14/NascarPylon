@@ -4,5 +4,5 @@ from Vehicle import Vehicle
 
 class PitView(ABC):
     @abstractmethod
-    def displayPitView(self, vehicle: Vehicle, i: int, recently_pitted: bool):
+    def displayPitView(self, vehicle: Vehicle, i: int, recentlyPitted: bool):
         pass

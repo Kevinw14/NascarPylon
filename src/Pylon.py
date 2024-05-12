@@ -15,10 +15,10 @@ class Pylon:
         self.__foundLuckyDog = False
 
     @staticmethod
-    def __didRecentlyPit(vehicle, lap_number):
+    def __didRecentlyPit(vehicle, lapNumber):
         if len(vehicle.pit_stops) > 0:
             lastPit: PitStop = vehicle.pit_stops[len(vehicle.pit_stops) - 1]
-            return lap_number - lastPit.pitInLeaderLap < 5
+            return lapNumber - lastPit.pitInLeaderLap < 5
 
         return False
 
