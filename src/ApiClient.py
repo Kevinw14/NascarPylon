@@ -6,29 +6,29 @@ import requests
 
 class ApiClient:
     def __init__(self):
-        self.current_ops = self.getOpsFeed()
+        self.currentOps = self.getOpsFeed()
 
     @staticmethod
     def __opsFeedUrl():
         return 'https://cf.nascar.com/live-ops/live-ops.json'
 
     @staticmethod
-    def __getResponse(spec_url):
-        r = requests.get(spec_url)
+    def __getResponse(specUrl):
+        r = requests.get(specUrl)
         return r
 
     def getLiveFeed(self, series):
         match series:
             case Series.CUP:
-                series_url = self.current_ops.cupLiveFeedUrl
+                seriesUrl = self.currentOps.cupLiveFeedUrl
             case Series.XFINITY:
-                series_url = self.current_ops.xfinityLiveFeedUrl
+                seriesUrl = self.currentOps.xfinityLiveFeedUrl
             case Series.TRUCKS:
-                series_url = self.current_ops.trucksLiveFeedUrl
+                seriesUrl = self.currentOps.trucksLiveFeedUrl
             case _:
                 raise Exception("Series not found")
 
-        r = self.__getResponse(series_url)
+        r = self.__getResponse(seriesUrl)
         if r.status_code == 200:
             data = r.json()
             feed = LiveFeed(data)

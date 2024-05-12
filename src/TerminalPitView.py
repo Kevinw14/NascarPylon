@@ -4,8 +4,8 @@ from Vehicle import Vehicle
 
 
 class TerminalPitView(PitView):
-    def displayPitView(self, vehicle: Vehicle, i: int, recently_pitted: bool):
-        if recently_pitted:
+    def displayPitView(self, vehicle: Vehicle, i: int, recentlyPitted: bool):
+        if recentlyPitted:
             print(Colors.BLUE + "•" + Colors.END)
             return
 

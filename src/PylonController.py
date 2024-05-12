@@ -15,41 +15,41 @@ from Pylon import Pylon
 
 class PylonController(PylonDelegate):
 
-    def __init__(self, pylon: Pylon, lap_number_view: LapNumberView, flag_view: FlagView, laps_to_go_view: LapsToGoView,
-                 vehicle_view: VehicleView, position_change_view: PositionChangeView, pit_view: PitView, lap_down_view: LapDownView):
-        self.__lapNumberView: LapNumberView = lap_number_view
-        self.__flagView: FlagView = flag_view
-        self.__lapsToGoView: LapsToGoView = laps_to_go_view
-        self.__vehicle_view: VehicleView = vehicle_view
-        self.__position_change_view: PositionChangeView = position_change_view
-        self.__pit_view: PitView = pit_view
-        self.__lap_down_view: LapDownView = lap_down_view
+    def __init__(self, pylon: Pylon, lapNumberView: LapNumberView, flagView: FlagView, lapsToGo_view: LapsToGoView,
+                 vehicleView: VehicleView, positionChangeView: PositionChangeView, pitView: PitView, lapDownView: LapDownView):
+        self.__lapNumberView: LapNumberView = lapNumberView
+        self.__flagView: FlagView = flagView
+        self.__lapsToGoView: LapsToGoView = lapsToGo_view
+        self.__vehicleView: VehicleView = vehicleView
+        self.__positionChangeView: PositionChangeView = positionChangeView
+        self.__pitView: PitView = pitView
+        self.__lapDownView: LapDownView = lapDownView
         self.__pylon: Pylon = pylon
         self.__pylon.setDelegate(self)
 
     def clearScreen(self) -> None:
         os.system('clear')
 
-    def lapNumberUpdated(self, lap_number: int) -> None:
-        self.__lapNumberView.displayLapNumber(lap_number)
+    def lapNumberUpdated(self, lapNumber: int) -> None:
+        self.__lapNumberView.displayLapNumber(lapNumber)
 
-    def lapsToGoUpdated(self, laps_to_go: int) -> None:
-        self.__lapsToGoView.displayLapsToGo(laps_to_go)
+    def lapsToGoUpdated(self, lapsToGo: int) -> None:
+        self.__lapsToGoView.displayLapsToGo(lapsToGo)
 
-    def flagStatusUpdated(self, flag_status: FlagStatus) -> None:
-        self.__flagView.displayFlagStatus(flag_status)
+    def flagStatusUpdated(self, flagStatus: FlagStatus) -> None:
+        self.__flagView.displayFlagStatus(flagStatus)
 
     def vehiclePositionUpdated(self, vehicle: Vehicle, i: int) -> None:
-        self.__vehicle_view.displayVehicle(vehicle, i)
+        self.__vehicleView.displayVehicle(vehicle, i)
 
     def vehicleDidChangePositions(self, vehicle: Vehicle, i: int, position: Position) -> None:
-        self.__position_change_view.displayPositionChange(vehicle, i, position)
+        self.__positionChangeView.displayPositionChange(vehicle, i, position)
 
-    def vehicleDidPitRecently(self, vehicle: Vehicle, i: int, did_pit_recently: bool) -> None:
-        self.__pit_view.displayPitView(vehicle, i, did_pit_recently)
+    def vehicleDidPitRecently(self, vehicle: Vehicle, i: int, didPitRecently: bool) -> None:
+        self.__pitView.displayPitView(vehicle, i, didPitRecently)
 
     def didUpdateLapDownLine(self, vehicle: Vehicle, i: int):
-        self.__lap_down_view.displayLapDownLine(vehicle, i)
+        self.__lapDownView.displayLapDownLine(vehicle, i)
 
     def run(self) -> None:
         self.__pylon.run()

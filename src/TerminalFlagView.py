@@ -25,5 +25,5 @@ class TerminalFlagView(FlagView):
             case FlagStatus.UNKNOWN:
                 return flag_status.UNKNOWN.name
 
-    def displayFlagStatus(self, flag_status: FlagStatus):
-        print(TerminalFlagView.__flagStatusView(flag_status))
+    def displayFlagStatus(self, flagStatus: FlagStatus):
+        print(TerminalFlagView.__flagStatusView(flagStatus))

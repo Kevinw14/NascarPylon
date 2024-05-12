@@ -1,6 +1,7 @@
 from ApiClient import ApiClient
 from Position import Position
 from Vehicle import Vehicle
+from PitStop import PitStop
 import time
 
 
@@ -16,16 +17,16 @@ class Pylon:
     @staticmethod
     def __didRecentlyPit(vehicle, lap_number):
         if len(vehicle.pit_stops) > 0:
-            last_pit = len(vehicle.pit_stops) - 1
-            return lap_number - vehicle.pit_stops[last_pit].pitInLeaderLap < 5
+            lastPit: PitStop = vehicle.pit_stops[len(vehicle.pit_stops) - 1]
+            return lap_number - lastPit.pitInLeaderLap < 5
 
         return False
 
     @staticmethod
-    def __positionChanged(old_position, new_position):
-        if new_position < old_position:
+    def __positionChanged(oldPosition, newPosition):
+        if newPosition < oldPosition:
             return Position.GAINED
-        elif new_position > old_position:
+        elif newPosition > oldPosition:
             return Position.LOST
         else:
             return Position.NONE

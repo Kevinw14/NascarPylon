@@ -10,15 +10,15 @@ class PylonDelegate(ABC):
         pass
 
     @abstractmethod
-    def lapNumberUpdated(self, lap_number: int):
+    def lapNumberUpdated(self, lapNumber: int):
         pass
 
     @abstractmethod
-    def lapsToGoUpdated(self, laps_to_go: int):
+    def lapsToGoUpdated(self, lapsToGo: int):
         pass
 
     @abstractmethod
-    def flagStatusUpdated(self, flag_status: FlagStatus):
+    def flagStatusUpdated(self, flagStatus: FlagStatus):
         pass
 
     @abstractmethod
@@ -30,7 +30,7 @@ class PylonDelegate(ABC):
         pass
 
     @abstractmethod
-    def vehicleDidPitRecently(self, vehicle: Vehicle, i: int, did_pit_recently: bool):
+    def vehicleDidPitRecently(self, vehicle: Vehicle, i: int, didPitRecently: bool):
         pass
     
     @abstractmethod
