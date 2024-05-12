@@ -1,7 +1,6 @@
 from FlagStatus import FlagStatus
 from Vehicle import Vehicle
 
-
 class LiveFeed:
     def __init__(self, r):
         self.lapNumber = r['lap_number']

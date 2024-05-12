@@ -1,6 +1,5 @@
 from PitStop import PitStop
 
-
 class Vehicle:
     def __init__(self, r):
         self.vehicleNumber: str = r['vehicle_number']

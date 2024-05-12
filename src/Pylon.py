@@ -4,7 +4,6 @@ from Vehicle import Vehicle
 from PitStop import PitStop
 import time
 
-
 class Pylon:
 
     def __init__(self, series):

@@ -3,7 +3,6 @@ from Vehicle import Vehicle
 from FlagStatus import FlagStatus
 from Position import Position
 
-
 class PylonDelegate(ABC):
     @abstractmethod
     def clearScreen(self):

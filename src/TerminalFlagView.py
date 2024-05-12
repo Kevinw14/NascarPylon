@@ -2,7 +2,6 @@ from FlagView import FlagView
 from FlagStatus import FlagStatus
 from Colors import Colors
 
-
 class TerminalFlagView(FlagView):
 
     @staticmethod

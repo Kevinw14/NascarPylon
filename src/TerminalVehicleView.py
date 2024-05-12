@@ -2,7 +2,6 @@ from VehicleView import VehicleView
 from Colors import Colors
 from Vehicle import Vehicle
 
-
 class TerminalVehicleView(VehicleView):
 
     @staticmethod

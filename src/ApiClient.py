@@ -3,7 +3,6 @@ from OpsFeed import OpsFeed
 from Series import Series
 import requests
 
-
 class ApiClient:
     def __init__(self):
         self.currentOps = self.getOpsFeed()

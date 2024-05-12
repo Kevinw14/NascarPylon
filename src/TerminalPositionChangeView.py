@@ -3,7 +3,6 @@ from Colors import Colors
 from Position import Position
 from Vehicle import Vehicle
 
-
 class TerminalPositionChangeView(PositionChangeView):
 
     def displayPositionChange(self, vehicle: Vehicle, i: int, position: Position):

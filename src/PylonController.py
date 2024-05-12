@@ -12,7 +12,6 @@ from PositionChangeView import PositionChangeView
 from LapDownView import LapDownView
 from Pylon import Pylon
 
-
 class PylonController(PylonDelegate):
 
     def __init__(self, pylon: Pylon, lapNumberView: LapNumberView, flagView: FlagView, lapsToGo_view: LapsToGoView,
