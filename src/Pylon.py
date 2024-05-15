@@ -17,26 +17,22 @@ class Pylon(BaseModel):
     apiClient: ApiClient = ApiClient()
     positions: Dict[str, int] = {}
     foundLuckyDog: bool = False
+    pitLapDifference: int
 
-    @staticmethod
-    def didRecentlyPit(vehicle, lapNumber) -> bool:
+    def didRecentlyPit(self, vehicle, lapNumber) -> bool:
         if len(vehicle.pitStops) > 0:
             lastPit: PitStop = vehicle.pitStops[len(vehicle.pitStops) - 1]
-            return lapNumber - lastPit.pitInLeaderLap < 5
+            return lapNumber - lastPit.pitInLeaderLap < self.pitLapDifference
 
         return False
 
-    @staticmethod
-    def positionChanged(oldPosition, newPosition) -> Position:
+    def positionChanged(self, oldPosition, newPosition) -> Position:
         if newPosition < oldPosition:
             return Position.GAINED
         elif newPosition > oldPosition:
             return Position.LOST
         else:
             return Position.NONE
-
-    def setDelegate(self, delegate) -> None:
-        self.delegate = delegate
 
     def run(self) -> None:
         try:

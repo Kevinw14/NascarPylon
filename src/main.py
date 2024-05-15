@@ -12,7 +12,8 @@ import click
 @click.command()
 @click.option('-s', default='CUP', type=click.Choice(['CUP', 'XFINITY', 'TRUCKS']))
 @click.option('-o', default='terminal', type=click.Choice(['terminal', 'pylon']))
-def main(s: str, o: str):
+@click.option('-pl', default=5)
+def main(s: str, o: str, pl: int):
     series: Series
     view: View
 
@@ -38,7 +39,7 @@ def main(s: str, o: str):
         case _:
             return
 
-    pylon: Pylon = Pylon(series=series)
+    pylon: Pylon = Pylon(series=series, pitLapDifference=pl)
     controller = PylonController(view=view, pylon=pylon)
     controller.run()
 

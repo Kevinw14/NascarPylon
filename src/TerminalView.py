@@ -17,8 +17,7 @@ class TerminalView(View):
         super().__init__(**kw)
         self.live.start()
 
-    @staticmethod
-    def __vehicleStatusColor(vehicle: Vehicle) -> str:
+    def vehicleStatusColor(self, vehicle: Vehicle) -> str:
         match vehicle.status:
             case 1:
                 return vehicle.vehicleNumber
@@ -26,9 +25,10 @@ class TerminalView(View):
                 return f'[yellow]{vehicle.vehicleNumber}[/yellow]'
             case 3:
                 return f'[red]{vehicle.vehicleNumber}[/red]'
+            case _:
+                return vehicle.vehicleNumber
 
-    @staticmethod
-    def __flagStatus(flagStatus: FlagStatus) -> str:
+    def flagStatus(self, flagStatus: FlagStatus) -> str:
         match flagStatus:
             case FlagStatus.NONE:
                 return ''
@@ -47,9 +47,23 @@ class TerminalView(View):
             case FlagStatus.UNKNOWN:
                 return flagStatus.UNKNOWN.name
 
+    def pitIndicator(self, recentlyPitted: bool) -> str:
+        if recentlyPitted:
+            return '[blue]•[/blue]'
+        return ''
+
+    def positionChangeIndicator(self, position: Position) -> str:
+        match position:
+            case Position.GAINED:
+                return '[green]|[/green]'
+            case Position.LOST:
+                return '[red]|[/red]'
+            case Position.NONE:
+                return ''
+
     def updateVehicle(self, vehicle: Vehicle, i: int, didRecentlyPit: bool, position: Position) -> None:
-        self.table.add_row(f'{i + 1}', self.__vehicleStatusColor(vehicle), self.__positionChangeIndicator(position),
-                           self.__pitIndicator(didRecentlyPit))
+        self.table.add_row(f'{i + 1}', self.vehicleStatusColor(vehicle), self.positionChangeIndicator(position),
+                           self.pitIndicator(didRecentlyPit))
 
     def updateLapsToGo(self, lapsToGo: int) -> None:
         self.table.caption = f'{lapsToGo} laps to go'
@@ -61,23 +75,7 @@ class TerminalView(View):
         self.table.add_section()
 
     def updateFlagStatus(self, flagStatus: FlagStatus) -> None:
-        self.table.title += f' {self.__flagStatus(flagStatus)}'
-
-    @staticmethod
-    def __pitIndicator(recentlyPitted: bool) -> str:
-        if recentlyPitted:
-            return '[blue]•[/blue]'
-        return ''
-
-    @staticmethod
-    def __positionChangeIndicator(position: Position) -> str:
-        match position:
-            case Position.GAINED:
-                return '[green]|[/green]'
-            case Position.LOST:
-                return '[red]|[/red]'
-            case Position.NONE:
-                return ''
+        self.table.title += f' {self.flagStatus(flagStatus)}'
 
     def show(self) -> None:
         self.live.update(self.table)
