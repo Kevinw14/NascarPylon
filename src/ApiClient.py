@@ -12,7 +12,7 @@ class ApiClient(BaseModel):
         return 'https://cf.nascar.com/live-ops/live-ops.json'
 
     @staticmethod
-    def __getResponse(specUrl) -> Response:
+    def getResponse(specUrl) -> Response:
         r = requests.get(specUrl)
         return r
 
@@ -29,9 +29,9 @@ class ApiClient(BaseModel):
                     seriesUrl = currentOps.trucksLiveFeedUrl
                 case _:
                     raise Exception("Series not found")
-            liveDataResponse: Response = self.__getResponse("https://cf.nascar.com/live/feeds/live-feed.json")
+            liveDataResponse: Response = self.getResponse(seriesUrl)
             return liveDataResponse
 
     def getOpsFeedResponse(self) -> Response:
-        opsFeedResponse: Response = self.__getResponse(self.__opsFeedUrl())
+        opsFeedResponse: Response = self.getResponse(self.__opsFeedUrl())
         return opsFeedResponse
