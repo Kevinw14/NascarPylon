@@ -2,36 +2,38 @@ from abc import ABC, abstractmethod
 from Vehicle import Vehicle
 from FlagStatus import FlagStatus
 from Position import Position
+from pydantic import BaseModel
 
-class PylonDelegate(ABC):
+
+class PylonDelegate(BaseModel, ABC):
     @abstractmethod
-    def clearScreen(self):
+    def didClear(self) -> None:
         pass
 
     @abstractmethod
-    def lapNumberUpdated(self, lapNumber: int):
+    def lapNumberUpdated(self, lapNumber: int) -> None:
         pass
 
     @abstractmethod
-    def lapsToGoUpdated(self, lapsToGo: int):
+    def lapsToGoUpdated(self, lapsToGo: int) -> None:
         pass
 
     @abstractmethod
-    def flagStatusUpdated(self, flagStatus: FlagStatus):
+    def flagStatusUpdated(self, flagStatus: FlagStatus) -> None:
         pass
 
     @abstractmethod
-    def vehiclePositionUpdated(self, vehicle: Vehicle, i: int):
+    def vehiclePositionUpdated(self, vehicle: Vehicle, i: int, didRecentlyPit: bool, position: Position) -> None:
         pass
 
     @abstractmethod
-    def vehicleDidChangePositions(self, vehicle: Vehicle, i: int, position: Position):
+    def didUpdateLapDownLine(self, vehicle: Vehicle, i: int) -> None:
         pass
 
     @abstractmethod
-    def vehicleDidPitRecently(self, vehicle: Vehicle, i: int, didPitRecently: bool):
+    def didShow(self):
         pass
-    
+
     @abstractmethod
-    def didUpdateLapDownLine(self, vehicle: Vehicle, i: int):
+    def didEnd(self) -> None:
         pass

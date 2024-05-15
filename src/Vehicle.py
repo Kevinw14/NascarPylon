@@ -1,15 +1,13 @@
 from PitStop import PitStop
+from typing import List
+from pydantic import BaseModel, Field
 
-class Vehicle:
-    def __init__(self, r):
-        self.vehicleNumber: str = r['vehicle_number']
-        self.lapsCompleted: int = r['laps_completed']
-        self.status: int = r['status']
-        self.isOnDVP: bool = r['is_on_dvp']
-        self.isOnTrack: bool = r['is_on_track']
-        self.delta: int = r['delta']
-        pitStops: [PitStop] = []
-        for pitStopData in r['pit_stops']:
-            pitStop: PitStop = PitStop(pitStopData)
-            pitStops.append(pitStop)
-        self.pit_stops = pitStops
+
+class Vehicle(BaseModel):
+    vehicleNumber: str = Field(alias="vehicle_number")
+    lapsCompleted: int = Field(alias="laps_completed")
+    status: int = Field(alias="status")
+    isOnDVP: bool = Field(alias="is_on_dvp")
+    isOnTrack: bool = Field(alias="is_on_track")
+    delta: float = Field(alias="delta")
+    pitStops: List[PitStop] = Field(alias="pit_stops")

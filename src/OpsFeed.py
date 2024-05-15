@@ -1,8 +1,10 @@
-class OpsFeed:
-    def __init__(self, r):
-        self.cupLiveFeedUrl = r['live_feed_url_series1']
-        self.xfinityLiveFeedUrl = r['live_feed_url_series2']
-        self.trucksLiveFeedUrl = r['live_feed_url_series3']
-        self.cupPointsFeedUrl = r['driver_points_feed_url_series1']
-        self.xfinityPointsFeedUrl = r['driver_points_feed_url_series2']
-        self.trucksPointsFeedUrl = r['driver_points_feed_url_series3']
+from pydantic import BaseModel, Field
+
+
+class OpsFeed(BaseModel):
+    cupLiveFeedUrl: str = Field(alias="live_feed_url_series1")
+    xfinityLiveFeedUrl: str = Field(alias="live_feed_url_series2")
+    trucksLiveFeedUrl: str = Field(alias="live_feed_url_series3")
+    cupPointsFeedUrl: str = Field(alias="driver_points_feed_url_series1")
+    xfinityPointsFeedUrl: str = Field(alias="driver_points_feed_url_series2")
+    trucksPointsFeedUrl: str = Field(alias="driver_points_feed_url_series3")

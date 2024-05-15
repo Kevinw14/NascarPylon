@@ -1,11 +1,12 @@
 from enum import Enum
 
+
 class FlagStatus(Enum):
     NONE = 0
     GREEN = 1
     CAUTION = 2
     RED = 3
     WHITE = 4
-    CHECKERED = 5
+    UNKNOWN = 5
     WARMUP = 8
-    UNKNOWN = 9
+    CHECKERED = 9

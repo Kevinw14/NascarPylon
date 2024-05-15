@@ -1,41 +1,37 @@
-from LiveFeed import LiveFeed
+from requests import Response
+from pydantic import BaseModel
 from OpsFeed import OpsFeed
 from Series import Series
 import requests
 
-class ApiClient:
-    def __init__(self):
-        self.currentOps = self.getOpsFeed()
+
+class ApiClient(BaseModel):
 
     @staticmethod
-    def __opsFeedUrl():
+    def __opsFeedUrl() -> str:
         return 'https://cf.nascar.com/live-ops/live-ops.json'
 
     @staticmethod
-    def __getResponse(specUrl):
+    def __getResponse(specUrl) -> Response:
         r = requests.get(specUrl)
         return r
 
-    def getLiveFeed(self, series):
-        match series:
-            case Series.CUP:
-                seriesUrl = self.currentOps.cupLiveFeedUrl
-            case Series.XFINITY:
-                seriesUrl = self.currentOps.xfinityLiveFeedUrl
-            case Series.TRUCKS:
-                seriesUrl = self.currentOps.trucksLiveFeedUrl
-            case _:
-                raise Exception("Series not found")
+    def getLiveFeedResponse(self, series) -> Response:
+        currentOpsResponse: Response = self.getOpsFeedResponse()
+        if currentOpsResponse.status_code == 200:
+            currentOps: OpsFeed = OpsFeed.parse_obj(currentOpsResponse.json())
+            match series:
+                case Series.CUP:
+                    seriesUrl = currentOps.cupLiveFeedUrl
+                case Series.XFINITY:
+                    seriesUrl = currentOps.xfinityLiveFeedUrl
+                case Series.TRUCKS:
+                    seriesUrl = currentOps.trucksLiveFeedUrl
+                case _:
+                    raise Exception("Series not found")
+            liveDataResponse: Response = self.__getResponse("https://cf.nascar.com/live/feeds/live-feed.json")
+            return liveDataResponse
 
-        r = self.__getResponse(seriesUrl)
-        if r.status_code == 200:
-            data = r.json()
-            feed = LiveFeed(data)
-            return feed
-
-    def getOpsFeed(self):
-        r = self.__getResponse(self.__opsFeedUrl())
-        if r.status_code == 200:
-            data = r.json()
-            feed = OpsFeed(data)
-            return feed
+    def getOpsFeedResponse(self) -> Response:
+        opsFeedResponse: Response = self.__getResponse(self.__opsFeedUrl())
+        return opsFeedResponse

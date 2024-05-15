@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class Position(Enum):
     GAINED = 1
     LOST = 2

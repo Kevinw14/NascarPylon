@@ -1,28 +1,33 @@
+from requests import Response
 from ApiClient import ApiClient
 from Position import Position
 from Vehicle import Vehicle
 from PitStop import PitStop
+from LiveFeed import LiveFeed
+from pydantic import BaseModel
+from Series import Series
+from PylonDelegate import PylonDelegate
+from typing import Optional, Dict
 import time
 
-class Pylon:
 
-    def __init__(self, series):
-        self.__series = series
-        self.__delegate = None
-        self.__apiClient = ApiClient()
-        self.__positions = {}
-        self.__foundLuckyDog = False
+class Pylon(BaseModel):
+    series: Series
+    delegate: Optional[PylonDelegate] = None
+    apiClient: ApiClient = ApiClient()
+    positions: Dict[str, int] = {}
+    foundLuckyDog: bool = False
 
     @staticmethod
-    def __didRecentlyPit(vehicle, lapNumber):
-        if len(vehicle.pit_stops) > 0:
-            lastPit: PitStop = vehicle.pit_stops[len(vehicle.pit_stops) - 1]
+    def didRecentlyPit(vehicle, lapNumber) -> bool:
+        if len(vehicle.pitStops) > 0:
+            lastPit: PitStop = vehicle.pitStops[len(vehicle.pitStops) - 1]
             return lapNumber - lastPit.pitInLeaderLap < 5
 
         return False
 
     @staticmethod
-    def __positionChanged(oldPosition, newPosition):
+    def positionChanged(oldPosition, newPosition) -> Position:
         if newPosition < oldPosition:
             return Position.GAINED
         elif newPosition > oldPosition:
@@ -30,26 +35,34 @@ class Pylon:
         else:
             return Position.NONE
 
-    def setDelegate(self, delegate):
-        self.__delegate = delegate
+    def setDelegate(self, delegate) -> None:
+        self.delegate = delegate
 
-    def run(self):
-        feed = self.__apiClient.getLiveFeed(self.__series)
-        while feed.lapsToGo > 0:
-            self.__delegate.clearScreen()
-            self.__delegate.lapNumberUpdated(feed.lapNumber)
-            self.__delegate.flagStatusUpdated(feed.flagStatus)
-            self.__delegate.lapsToGoUpdated(feed.lapsToGo)
-            for i in range(min(40, len(feed.vehicles))):
-                vehicle: Vehicle = feed.vehicles[i]
-                if vehicle.delta < 0 and not self.__foundLuckyDog:
-                    self.__delegate.didUpdateLapDownLine(vehicle, i)
-                    self.__foundLuckyDog = True
-                self.__delegate.vehiclePositionUpdated(vehicle, i)
-                position_changed: Position = self.__positionChanged(self.__positions.get(vehicle.vehicleNumber, i), i)
-                self.__delegate.vehicleDidChangePositions(vehicle, i, position_changed)
-                self.__delegate.vehicleDidPitRecently(vehicle, i, self.__didRecentlyPit(vehicle, feed.lapNumber))
-                self.__positions[vehicle.vehicleNumber] = i
-            time.sleep(6)
-            self.__foundLuckyDog = False
-            feed = self.__apiClient.getLiveFeed(self.__series)
+    def run(self) -> None:
+        try:
+            while True:
+                feedResponse: Response = self.apiClient.getLiveFeedResponse(self.series)
+                if feedResponse.status_code == 200:
+                    feed: LiveFeed = LiveFeed(**feedResponse.json())
+                    self.delegate.didClear()
+                    self.delegate.lapNumberUpdated(feed.lapNumber)
+                    self.delegate.flagStatusUpdated(feed.flagStatus)
+                    self.delegate.lapsToGoUpdated(feed.lapsToGo)
+                    for i in range(min(40, len(feed.vehicles))):
+                        vehicle: Vehicle = feed.vehicles[i]
+                        position_changed: Position = self.positionChanged(self.positions.get(vehicle.vehicleNumber, i),
+                                                                          i)
+                        didRecentlyPit: bool = self.didRecentlyPit(vehicle, feed.lapNumber)
+                        self.delegate.vehiclePositionUpdated(vehicle, i, didRecentlyPit, position_changed)
+                        self.positions[vehicle.vehicleNumber] = i
+                        if vehicle.delta < 0 and not self.foundLuckyDog:
+                            self.delegate.didUpdateLapDownLine(vehicle, i)
+                            self.foundLuckyDog = True
+                    self.delegate.didShow()
+                    time.sleep(6)
+                    self.foundLuckyDog = False
+                else:
+                    self.delegate.didClear()
+                    break
+        except KeyboardInterrupt:
+            self.delegate.didEnd()
